@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift Boss - The Ultimate Car Drifting Game | Play Now</title>
+    <meta name="description" content="Play Drift Boss online for free - Master the art of drifting in this addictive endless racing game. Test your reflexes and earn high scores!">
+    <link rel="canonical" href="https://driftboss.vip">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF5722',
+                        secondary: '#2C3E50',
+                        accent: '#F1C40F',
+                        dark: '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'system-ui', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        tighter: '-0.05em',
+                        tight: '-0.025em',
+                        wide: '0.025em',
+                        wider: '0.05em',
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwind">
+        @layer components {
+            .game-container {
+                @apply w-full max-w-5xl mx-auto rounded-lg overflow-hidden shadow-xl;
+            }
+            .btn {
+                @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-opacity-90;
+            }
+            .section-title {
+                @apply text-2xl md:text-3xl font-bold text-secondary mb-6 border-l-4 border-primary pl-3 leading-tight font-heading tracking-tight;
+            }
+            .paragraph {
+                @apply text-base leading-relaxed text-gray-700;
+            }
+            .feature-item {
+                @apply flex items-start space-x-3 py-1.5;
+            }
+            .header-transparent {
+                @apply bg-dark/90 backdrop-blur-md;
+            }
+            .header-scrolled {
+                @apply bg-dark shadow-lg;
+            }
+            .nav-link {
+                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary;
+            }
+            .nav-link::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out;
+            }
+            .nav-link:hover::after {
+                @apply w-full;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        // Header scroll effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.getElementById('main-header');
+            const scrollThreshold = 100;
+            
+            function handleScroll() {
+                if (window.scrollY > scrollThreshold) {
+                    header.classList.remove('header-transparent');
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.add('header-transparent');
+                    header.classList.remove('header-scrolled');
+                }
+            }
+            
+            window.addEventListener('scroll', handleScroll);
+            // Initialize on load
+            handleScroll();
+            
+            // Mobile menu toggle
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- Header - Fixed and immersive -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 header-transparent">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="/" class="text-2xl md:text-3xl font-bold text-primary tracking-tight font-heading flex items-center">
+                    <span class="text-glow">Drift</span><span class="text-accent text-glow">Boss</span>
+                </a>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#game" class="nav-link text-white">Play Game</a></li>
+                        <li><a href="#about" class="nav-link text-white">About</a></li>
+                        <li><a href="#instructions" class="nav-link text-white">How to Play</a></li>
+                    </ul>
+                </nav>
+                <button id="mobile-menu-button" class="md:hidden text-xl text-white" aria-label="Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden bg-dark/95 backdrop-blur-md hidden transition-all duration-300 shadow-xl">
+            <div class="container mx-auto px-4 py-3">
+                <ul class="space-y-3">
+                    <li><a href="#game" class="block py-2 text-white hover:text-primary transition-colors">Play Game</a></li>
+                    <li><a href="#about" class="block py-2 text-white hover:text-primary transition-colors">About</a></li>
+                    <li><a href="#instructions" class="block py-2 text-white hover:text-primary transition-colors">How to Play</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Spacer for fixed header -->
+    <div class="h-16 md:h-20"></div>
+
+    <!-- Hero Section with full viewport height and immersive design -->
+    <section class="min-h-[90vh] flex items-center bg-gradient-to-r from-secondary to-dark text-white relative">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070')] bg-cover bg-center opacity-20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10 py-20">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight font-heading tracking-tight max-w-4xl mx-auto">Drift Boss - Master the Ultimate Drifting Challenge</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">Race through endless platforms, perfect your drifting skills, and set new high scores in this addictive racing game!</p>
+            <a href="#game" class="btn btn-primary text-base">Play Now</a>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 flex justify-center">
+            <a href="#game" class="text-white animate-bounce p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">Play Drift Boss</h2>
+            <div class="game-container aspect-[16/9]">
+                <iframe 
+                    src="https://games.crazygames.com/en_US/drift-boss/index.html" 
+                    title="Play Drift Boss Game Online"
+                    class="w-full h-full border-0"
+                    loading="lazy"
+                    allowfullscreen
+                ></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">About Drift Boss</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <p class="paragraph mb-5">Drift Boss is an addictive endless racing game that challenges your reflexes and precision. Your goal is to navigate a car across platforms that twist and turn, requiring perfect drifting skills to stay on track.</p>
+                    <p class="paragraph mb-5">What makes Drift Boss special is its simple yet challenging gameplay. The controls are easy to learn but mastering the perfect drift takes practice. As you progress, the tracks become more challenging, pushing your skills to the limit.</p>
+                    <p class="paragraph">With colorful graphics, smooth controls, and increasingly difficult levels, Drift Boss provides endless entertainment for casual gamers and racing enthusiasts alike.</p>
+                </div>
+                <div class="bg-dark rounded-lg p-8 text-white">
+                    <h3 class="text-xl font-bold mb-6 text-accent font-heading tracking-wide">Game Features</h3>
+                    <ul class="space-y-3.5">
+                        <li class="feature-item">
+                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span class="leading-relaxed">Endless gameplay with increasing difficulty</span>
+                        </li>
+                        <li class="feature-item">
+                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span class="leading-relaxed">Simple one-touch or mouse controls</span>
+                        </li>
+                        <li class="feature-item">
+                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span class="leading-relaxed">Score system with high score tracking</span>
+                        </li>
+                        <li class="feature-item">
+                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span class="leading-relaxed">Vibrant graphics and smooth animations</span>
+                        </li>
+                        <li class="feature-item">
+                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            <span class="leading-relaxed">Play on any device - mobile or desktop</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section id="instructions" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-10">How to Play</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Controls</h3>
+                    <p class="text-center paragraph">Use your mouse to click and hold (on desktop) or tap and hold (on mobile) to make your car drift. Release to stop drifting.</p>
+                </div>
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Objective</h3>
+                    <p class="text-center paragraph">Navigate your car across platforms without falling off. The longer you survive, the higher your score will be.</p>
+                </div>
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Challenge</h3>
+                    <p class="text-center paragraph">The platforms will change direction, requiring perfect timing and control of your drifts. Can you beat your high score?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-10">Frequently Asked Questions</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">Is Drift Boss free to play?</h3>
+                    <p class="paragraph">Yes, Drift Boss is completely free to play online. No downloads or payments required.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">Can I play Drift Boss on mobile?</h3>
+                    <p class="paragraph">Absolutely! Drift Boss works on all modern devices including smartphones, tablets, and desktop computers.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">How do I get better at Drift Boss?</h3>
+                    <p class="paragraph">Practice is key! Focus on timing your drifts perfectly and try to anticipate the platform changes before they happen.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">Does Drift Boss save my high score?</h3>
+                    <p class="paragraph">Yes, your high score is saved locally on your device so you can keep track of your progress.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Games -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">More Racing Games You'll Love</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">Speed Racer</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">Circuit Drifter</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">Car Rush</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">Formula Racing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-10">
+                <div>
+                    <h3 class="text-xl font-bold mb-5 font-heading">Drift<span class="text-accent">Boss</span></h3>
+                    <p class="text-gray-300 leading-relaxed">The ultimate car drifting game that tests your reflexes and precision. Play for free online!</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#game" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Play Game</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">About</a></li>
+                        <li><a href="#instructions" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">How to Play</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 DriftBoss.vip - All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Smooth scroll script -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const headerHeight = document.getElementById('main-header').offsetHeight;
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if it's open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
