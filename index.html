@@ -34,7 +34,7 @@
     <style type="text/tailwind">
         @layer components {
             .game-container {
-                @apply w-full max-w-5xl mx-auto rounded-lg overflow-hidden shadow-xl;
+                @apply w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl border-4 border-gray-200;
             }
             .btn {
                 @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide;
@@ -49,16 +49,10 @@
                 @apply text-base leading-relaxed text-gray-700;
             }
             .feature-item {
-                @apply flex items-start space-x-3 py-1.5;
-            }
-            .header-transparent {
-                @apply bg-dark/90 backdrop-blur-md;
-            }
-            .header-scrolled {
-                @apply bg-dark shadow-lg;
+                @apply flex items-center space-x-4 py-3 px-4 rounded-lg transition-all duration-300 hover:bg-opacity-10 hover:bg-white;
             }
             .nav-link {
-                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary;
+                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary text-secondary font-medium;
             }
             .nav-link::after {
                 content: '';
@@ -67,29 +61,15 @@
             .nav-link:hover::after {
                 @apply w-full;
             }
+            .text-glow {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
         // Header scroll effect
         document.addEventListener('DOMContentLoaded', function() {
-            const header = document.getElementById('main-header');
-            const scrollThreshold = 100;
-            
-            function handleScroll() {
-                if (window.scrollY > scrollThreshold) {
-                    header.classList.remove('header-transparent');
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.add('header-transparent');
-                    header.classList.remove('header-scrolled');
-                }
-            }
-            
-            window.addEventListener('scroll', handleScroll);
-            // Initialize on load
-            handleScroll();
-            
             // Mobile menu toggle
             const menuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
@@ -104,20 +84,20 @@
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
     <!-- Header - Fixed and immersive -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 header-transparent">
+    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-white shadow-md">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-16 md:h-20">
                 <a href="/" class="text-2xl md:text-3xl font-bold text-primary tracking-tight font-heading flex items-center">
-                    <span class="text-glow">Drift</span><span class="text-accent text-glow">Boss</span>
+                    <span class="text-primary">Drift</span><span class="text-accent">Boss</span>
                 </a>
                 <nav class="hidden md:block">
                     <ul class="flex space-x-8">
-                        <li><a href="#game" class="nav-link text-white">Play Game</a></li>
-                        <li><a href="#about" class="nav-link text-white">About</a></li>
-                        <li><a href="#instructions" class="nav-link text-white">How to Play</a></li>
+                        <li><a href="#game" class="nav-link text-secondary font-semibold">Play Game</a></li>
+                        <li><a href="#about" class="nav-link text-secondary font-semibold">About</a></li>
+                        <li><a href="#instructions" class="nav-link text-secondary font-semibold">How to Play</a></li>
                     </ul>
                 </nav>
-                <button id="mobile-menu-button" class="md:hidden text-xl text-white" aria-label="Menu">
+                <button id="mobile-menu-button" class="md:hidden text-xl text-secondary" aria-label="Menu">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -125,12 +105,12 @@
             </div>
         </div>
         <!-- Mobile menu (hidden by default) -->
-        <div id="mobile-menu" class="md:hidden bg-dark/95 backdrop-blur-md hidden transition-all duration-300 shadow-xl">
+        <div id="mobile-menu" class="md:hidden bg-white hidden transition-all duration-300 shadow-xl">
             <div class="container mx-auto px-4 py-3">
                 <ul class="space-y-3">
-                    <li><a href="#game" class="block py-2 text-white hover:text-primary transition-colors">Play Game</a></li>
-                    <li><a href="#about" class="block py-2 text-white hover:text-primary transition-colors">About</a></li>
-                    <li><a href="#instructions" class="block py-2 text-white hover:text-primary transition-colors">How to Play</a></li>
+                    <li><a href="#game" class="block py-2 text-secondary hover:text-primary transition-colors">Play Game</a></li>
+                    <li><a href="#about" class="block py-2 text-secondary hover:text-primary transition-colors">About</a></li>
+                    <li><a href="#instructions" class="block py-2 text-secondary hover:text-primary transition-colors">How to Play</a></li>
                 </ul>
             </div>
         </div>
@@ -160,14 +140,16 @@
     <section id="game" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="section-title mb-8">Play Drift Boss</h2>
-            <div class="game-container aspect-[16/9]">
-                <iframe 
-                    src="https://games.crazygames.com/en_US/drift-boss/index.html" 
-                    title="Play Drift Boss Game Online"
-                    class="w-full h-full border-0"
-                    loading="lazy"
-                    allowfullscreen
-                ></iframe>
+            <div class="bg-gray-50 p-6 rounded-3xl">
+                <div class="game-container aspect-[16/9]">
+                    <iframe 
+                        src="https://games.crazygames.com/en_US/drift-boss/index.html" 
+                        title="Play Drift Boss Game Online"
+                        class="w-full h-full border-0"
+                        loading="lazy"
+                        allowfullscreen
+                    ></iframe>
+                </div>
             </div>
         </div>
     </section>
@@ -182,28 +164,38 @@
                     <p class="paragraph mb-5">What makes Drift Boss special is its simple yet challenging gameplay. The controls are easy to learn but mastering the perfect drift takes practice. As you progress, the tracks become more challenging, pushing your skills to the limit.</p>
                     <p class="paragraph">With colorful graphics, smooth controls, and increasingly difficult levels, Drift Boss provides endless entertainment for casual gamers and racing enthusiasts alike.</p>
                 </div>
-                <div class="bg-dark rounded-lg p-8 text-white">
-                    <h3 class="text-xl font-bold mb-6 text-accent font-heading tracking-wide">Game Features</h3>
-                    <ul class="space-y-3.5">
+                <div class="bg-dark rounded-xl p-8 shadow-lg text-white">
+                    <h3 class="text-xl font-bold mb-6 text-accent font-heading tracking-wide border-b border-gray-700 pb-4">Game Features</h3>
+                    <ul class="space-y-2">
                         <li class="feature-item">
-                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="leading-relaxed">Endless gameplay with increasing difficulty</span>
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">Endless gameplay with increasing difficulty</span>
                         </li>
                         <li class="feature-item">
-                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="leading-relaxed">Simple one-touch or mouse controls</span>
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">Simple one-touch or mouse controls</span>
                         </li>
                         <li class="feature-item">
-                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="leading-relaxed">Score system with high score tracking</span>
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">Score system with high score tracking</span>
                         </li>
                         <li class="feature-item">
-                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="leading-relaxed">Vibrant graphics and smooth animations</span>
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">Vibrant graphics and smooth animations</span>
                         </li>
                         <li class="feature-item">
-                            <svg class="w-5 h-5 text-primary mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                            <span class="leading-relaxed">Play on any device - mobile or desktop</span>
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">Play on any device - mobile or desktop</span>
                         </li>
                     </ul>
                 </div>
