@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>드리프트 보스 - 최고의 드리프트 레이싱 게임</title>
+    <meta name="description" content="드리프트 보스에서 짜릿한 레이싱 액션을 경험하세요. 도로 위에서 드리프트하며 기록을 세우세요!">
+    <link rel="canonical" href="https://driftboss.vip/kr">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF5722',
+                        secondary: '#2C3E50',
+                        accent: '#F1C40F',
+                        dark: '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'Noto Sans KR', 'system-ui', 'sans-serif'],
+                        heading: ['Montserrat', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        tighter: '-0.05em',
+                        tight: '-0.025em',
+                        wide: '0.025em',
+                        wider: '0.05em',
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwind">
+        @layer components {
+            .game-container {
+                @apply w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl border-4 border-gray-200;
+            }
+            .btn {
+                @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-opacity-90;
+            }
+            .section-title {
+                @apply text-2xl md:text-3xl font-bold text-secondary mb-6 border-l-4 border-primary pl-3 leading-tight font-heading tracking-tight;
+            }
+            .paragraph {
+                @apply text-base leading-relaxed text-gray-700;
+            }
+            .feature-item {
+                @apply flex items-center space-x-4 py-3 px-4 rounded-lg transition-all duration-300 hover:bg-opacity-10 hover:bg-white;
+            }
+            .nav-link {
+                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary text-secondary font-medium;
+            }
+            .nav-link::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out;
+            }
+            .nav-link:hover::after {
+                @apply w-full;
+            }
+            .text-glow {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="../assets/js/language-dropdown.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- Header - Fixed and immersive -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="../index.html" class="text-2xl md:text-3xl font-bold text-primary tracking-tight font-heading flex items-center">
+                    <span class="text-primary">드리프트</span><span class="text-accent">보스</span>
+                </a>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#game" class="nav-link text-secondary font-semibold">플레이</a></li>
+                        <li><a href="#about" class="nav-link text-secondary font-semibold">소개</a></li>
+                        <li><a href="#instructions" class="nav-link text-secondary font-semibold">게임 방법</a></li>
+                    </ul>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="language-button" class="text-sm text-secondary hover:text-primary flex items-center cursor-pointer">
+                            <span>한국어</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <div id="language-dropdown" class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 hidden">
+                            <a href="../index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">English</a>
+                            <a href="../br/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Português (BR)</a>
+                            <a href="../ru/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Русский</a>
+                            <a href="../fr/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Français</a>
+                            <a href="../vn/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Tiếng Việt</a>
+                        </div>
+                    </div>
+                    <button id="mobile-menu-button" class="md:hidden text-xl text-secondary" aria-label="메뉴">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden bg-white hidden transition-all duration-300 shadow-xl">
+            <div class="container mx-auto px-4 py-3">
+                <ul class="space-y-3">
+                    <li><a href="#game" class="block py-2 text-secondary hover:text-primary transition-colors">플레이</a></li>
+                    <li><a href="#about" class="block py-2 text-secondary hover:text-primary transition-colors">소개</a></li>
+                    <li><a href="#instructions" class="block py-2 text-secondary hover:text-primary transition-colors">게임 방법</a></li>
+                    <li class="border-t border-gray-200 pt-2 mt-2">
+                        <span class="block py-2 text-secondary font-medium">언어</span>
+                        <div class="ml-4 grid grid-cols-2 gap-y-2 mt-1">
+                            <a href="../index.html" class="text-sm py-1 text-secondary hover:text-primary">English</a>
+                            <a href="../br/index.html" class="text-sm py-1 text-secondary hover:text-primary">Português (BR)</a>
+                            <a href="../ru/index.html" class="text-sm py-1 text-secondary hover:text-primary">Русский</a>
+                            <a href="index.html" class="text-sm py-1 text-primary font-medium">한국어</a>
+                            <a href="../fr/index.html" class="text-sm py-1 text-secondary hover:text-primary">Français</a>
+                            <a href="../vn/index.html" class="text-sm py-1 text-secondary hover:text-primary">Tiếng Việt</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Spacer for fixed header -->
+    <div class="h-16 md:h-20"></div>
+
+    <!-- Hero Section with full viewport height and immersive design -->
+    <section class="min-h-[90vh] flex items-center bg-gradient-to-r from-secondary to-dark text-white relative">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070')] bg-cover bg-center opacity-20"></div>
+        <div class="container mx-auto px-4 text-center relative z-10 py-20">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight font-heading tracking-tight max-w-4xl mx-auto">드리프트 보스 - 최고의 드리프트 챌린지를 마스터하세요</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">끝없는 플랫폼을 달리며 드리프트 기술을 완성하고 이 중독성 있는 레이싱 게임에서 새로운 최고 점수를 세우세요!</p>
+            <a href="#game" class="btn btn-primary text-base">지금 플레이</a>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 flex justify-center">
+            <a href="#game" class="text-white animate-bounce p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Game Section -->
+    <section id="game" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">드리프트 보스 플레이</h2>
+            <div class="bg-gray-50 p-6 rounded-3xl">
+                <div class="game-container aspect-[16/9]">
+                    <iframe 
+                        src="https://games.crazygames.com/en_US/drift-boss/index.html" 
+                        title="드리프트 보스 게임 온라인 플레이"
+                        class="w-full h-full border-0"
+                        loading="lazy"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">드리프트 보스 소개</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div>
+                    <p class="paragraph mb-5">드리프트 보스는 당신의 반사 신경과 정확성을 시험하는 중독적인 무한 레이싱 게임입니다. 당신의 목표는 트랙에 머무르기 위해 완벽한 드리프트 기술이 필요한 꼬이고 돌아가는 플랫폼을 가로지르는 자동차를 조종하는 것입니다.</p>
+                    <p class="paragraph mb-5">드리프트 보스를 특별하게 만드는 것은 간단하지만 도전적인 게임플레이입니다. 컨트롤은 배우기 쉽지만 완벽한 드리프트를 마스터하는 데는 연습이 필요합니다. 진행함에 따라 트랙은 더 도전적으로 변하여 당신의 기술을 한계까지 밀어붙입니다.</p>
+                    <p class="paragraph">화려한 그래픽, 부드러운 제어, 그리고 점점 더 어려워지는 난이도로, 드리프트 보스는 캐주얼 게이머와 레이싱 애호가 모두에게 끝없는 즐거움을 제공합니다.</p>
+                </div>
+                <div class="bg-dark rounded-xl p-8 shadow-lg text-white">
+                    <h3 class="text-xl font-bold mb-6 text-accent font-heading tracking-wide border-b border-gray-700 pb-4">게임 특징</h3>
+                    <ul class="space-y-2">
+                        <li class="feature-item">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">난이도가 증가하는 무한 게임플레이</span>
+                        </li>
+                        <li class="feature-item">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">간단한 원터치 또는 마우스 컨트롤</span>
+                        </li>
+                        <li class="feature-item">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">최고 점수 추적 시스템</span>
+                        </li>
+                        <li class="feature-item">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">생생한 그래픽과 부드러운 애니메이션</span>
+                        </li>
+                        <li class="feature-item">
+                            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                            </div>
+                            <span class="font-medium">모바일이나 데스크탑 어디서나 플레이 가능</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section id="instructions" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-10">게임 방법</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">조작법</h3>
+                    <p class="text-center paragraph">데스크탑에서는 마우스로 클릭하고 유지하거나, 모바일에서는 탭하고 유지하여 차량을 드리프트하세요. 놓으면 드리프트가 멈춥니다.</p>
+                </div>
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">목표</h3>
+                    <p class="text-center paragraph">떨어지지 않고 플랫폼을 가로질러 차량을 운전하세요. 더 오래 생존할수록 더 높은 점수를 얻을 수 있습니다.</p>
+                </div>
+                <div class="bg-gray-100 p-8 rounded-lg">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
+                        <span class="text-xl font-bold text-white">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 font-heading">도전</h3>
+                    <p class="text-center paragraph">플랫폼이 방향을 바꿀 것이므로 완벽한 타이밍과 드리프트 컨트롤이 필요합니다. 자신의 최고 기록을 깰 수 있을까요?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-10">자주 묻는 질문</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">드리프트 보스는 무료로 플레이할 수 있나요?</h3>
+                    <p class="paragraph">네, 드리프트 보스는 완전히 무료로 온라인에서 플레이할 수 있습니다. 다운로드나 결제가 필요하지 않습니다.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">모바일에서 드리프트 보스를 플레이할 수 있나요?</h3>
+                    <p class="paragraph">물론입니다! 드리프트 보스는 스마트폰, 태블릿, 데스크탑 컴퓨터 등 모든 현대적인 기기에서 작동합니다.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">드리프트 보스를 더 잘하려면 어떻게 해야 하나요?</h3>
+                    <p class="paragraph">연습이 핵심입니다! 완벽한 타이밍으로 드리프트하고 플랫폼 변화를 미리 예측하는 데 집중하세요.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-bold mb-3 font-heading">드리프트 보스는 최고 점수를 저장하나요?</h3>
+                    <p class="paragraph">네, 최고 점수는 기기에 로컬로 저장되어 진행 상황을 추적할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Games -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="section-title mb-8">회원님이 좋아할 다른 레이싱 게임</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">스피드 레이서</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">서킷 드리프터</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">카 러쉬</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden relative shadow-sm transition-transform transform hover:scale-[1.02] duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <span class="text-white font-bold p-4 tracking-wide font-heading">포뮬러 레이싱</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-10">
+                <div>
+                    <h3 class="text-xl font-bold mb-5 font-heading">드리프트<span class="text-accent">보스</span></h3>
+                    <p class="text-gray-300 leading-relaxed">당신의 반사신경과 정확도를 시험하는 최고의 자동차 드리프트 게임. 온라인에서 무료로 플레이하세요!</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">빠른 링크</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#game" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">게임 플레이</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">소개</a></li>
+                        <li><a href="#instructions" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">게임 방법</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">법적 고지</h3>
+                    <ul class="space-y-3">
+                        <li><a href="../privacy-policy.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">개인정보 보호정책</a></li>
+                        <li><a href="../terms-of-service.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">서비스 이용약관</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 드리프트보스.vip - 모든 권리 보유.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html> 

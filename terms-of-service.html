@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Drift Boss</title>
+    <meta name="description" content="Terms of Service for Drift Boss - Read the rules and guidelines for using our gaming platform.">
+    <link rel="canonical" href="https://driftboss.vip/terms-of-service">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF5722',
+                        secondary: '#2C3E50',
+                        accent: '#F1C40F',
+                        dark: '#1A1A1A',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'system-ui', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    letterSpacing: {
+                        tighter: '-0.05em',
+                        tight: '-0.025em',
+                        wide: '0.025em',
+                        wider: '0.05em',
+                    },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwind">
+        @layer components {
+            .btn {
+                @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide;
+            }
+            .btn-primary {
+                @apply bg-primary hover:bg-opacity-90;
+            }
+            .section-title {
+                @apply text-2xl md:text-3xl font-bold text-secondary mb-6 border-l-4 border-primary pl-3 leading-tight font-heading tracking-tight;
+            }
+            .paragraph {
+                @apply text-base leading-relaxed text-gray-700 mb-4;
+            }
+            .nav-link {
+                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary text-secondary font-medium;
+            }
+            .nav-link::after {
+                content: '';
+                @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out;
+            }
+            .nav-link:hover::after {
+                @apply w-full;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <!-- Header -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <a href="index.html" class="text-2xl md:text-3xl font-bold text-primary tracking-tight font-heading flex items-center">
+                    <span class="text-primary">Drift</span><span class="text-accent">Boss</span>
+                </a>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="index.html#game" class="nav-link text-secondary font-semibold">Play Game</a></li>
+                        <li><a href="index.html#about" class="nav-link text-secondary font-semibold">About</a></li>
+                        <li><a href="index.html#instructions" class="nav-link text-secondary font-semibold">How to Play</a></li>
+                    </ul>
+                </nav>
+                <button id="mobile-menu-button" class="md:hidden text-xl text-secondary" aria-label="Menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden bg-white hidden transition-all duration-300 shadow-xl">
+            <div class="container mx-auto px-4 py-3">
+                <ul class="space-y-3">
+                    <li><a href="index.html#game" class="block py-2 text-secondary hover:text-primary transition-colors">Play Game</a></li>
+                    <li><a href="index.html#about" class="block py-2 text-secondary hover:text-primary transition-colors">About</a></li>
+                    <li><a href="index.html#instructions" class="block py-2 text-secondary hover:text-primary transition-colors">How to Play</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Spacer for fixed header -->
+    <div class="h-16 md:h-20"></div>
+
+    <!-- Main Content -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h1 class="section-title text-3xl md:text-4xl mb-10">Terms of Service</h1>
+            <div class="max-w-3xl mx-auto">
+                <p class="paragraph">Last Updated: May 15, 2025</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">1. Acceptance of Terms</h2>
+                <p class="paragraph">By accessing or using the Drift Boss website and game ("Service"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">2. Changes to Terms</h2>
+                <p class="paragraph">We reserve the right to modify these terms at any time. We will always post the most current version on our website. By continuing to use the Service after changes become effective, you agree to be bound by the revised terms.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">3. Using Our Service</h2>
+                <p class="paragraph">Drift Boss provides an online gaming platform for entertainment purposes. You agree to use the Service only for lawful purposes and in accordance with these Terms.</p>
+                <p class="paragraph">You agree not to:</p>
+                <ul class="list-disc ml-6 mb-6 space-y-2 text-gray-700">
+                    <li>Use the Service in any way that violates applicable laws or regulations</li>
+                    <li>Attempt to interfere with, disrupt, or gain unauthorized access to the Service</li>
+                    <li>Use automated scripts, bots, or other software to interact with the Service</li>
+                    <li>Engage in any activity that could disable, overburden, or impair the Service</li>
+                    <li>Modify, adapt, or hack the Service or modify another website to falsely imply association with Drift Boss</li>
+                </ul>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">4. Intellectual Property</h2>
+                <p class="paragraph">All content included on the website, including but not limited to text, graphics, logos, icons, images, audio clips, digital downloads, and software, is the property of Drift Boss or its content suppliers and is protected by international copyright laws.</p>
+                <p class="paragraph">The game Drift Boss, including its name, design, gameplay mechanics, and characters, is protected by copyright and other intellectual property laws. You may not use, reproduce, distribute, or create derivative works based on the game without express written permission.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">5. User Accounts and Gameplay</h2>
+                <p class="paragraph">Some features of our Service may allow you to create an account or save game progress. You are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.</p>
+                <p class="paragraph">We reserve the right to terminate accounts or restrict access to the Service for violations of these Terms or for any other reason at our sole discretion.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">6. Disclaimers</h2>
+                <p class="paragraph">The Service is provided on an "as is" and "as available" basis. Drift Boss makes no warranties, expressed or implied, and hereby disclaims all warranties, including without limitation, implied warranties of merchantability, fitness for a particular purpose, or non-infringement.</p>
+                <p class="paragraph">We do not guarantee that:</p>
+                <ul class="list-disc ml-6 mb-6 space-y-2 text-gray-700">
+                    <li>The Service will always be available or free from errors</li>
+                    <li>Defects will be corrected</li>
+                    <li>The Service is free of viruses or other harmful components</li>
+                </ul>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">7. Limitation of Liability</h2>
+                <p class="paragraph">In no event shall Drift Boss be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses resulting from your access to or use of (or inability to access or use) the Service.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">8. Third-Party Links</h2>
+                <p class="paragraph">Our Service may contain links to third-party websites or services that are not owned or controlled by Drift Boss. We have no control over, and assume no responsibility for, the content, privacy policies, or practices of any third-party websites or services.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">9. Governing Law</h2>
+                <p class="paragraph">These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions.</p>
+                
+                <h2 class="text-xl font-bold text-secondary mb-4 mt-8 font-heading">10. Contact Us</h2>
+                <p class="paragraph">If you have any questions about these Terms, please contact us at:</p>
+                <p class="paragraph">Email: legal@driftboss.vip</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-10">
+                <div>
+                    <h3 class="text-xl font-bold mb-5 font-heading">Drift<span class="text-accent">Boss</span></h3>
+                    <p class="text-gray-300 leading-relaxed">The ultimate car drifting game that tests your reflexes and precision. Play for free online!</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="index.html#game" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Play Game</a></li>
+                        <li><a href="index.html#about" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">About</a></li>
+                        <li><a href="index.html#instructions" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">How to Play</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold mb-5 font-heading">Legal</h3>
+                    <ul class="space-y-3">
+                        <li><a href="privacy-policy.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 DriftBoss.vip - All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (menuButton && mobileMenu) {
+                menuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 
