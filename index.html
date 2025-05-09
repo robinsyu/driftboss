@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drift Boss - The Ultimate Car Drifting Game | Play Drift Boss Now</title>
+    <title>Drift Boss - The Ultimate Car Drifting Game Play Now</title>
     <meta name="description" content="Play Drift Boss online for free - Master the art of drifting in Drift Boss, this addictive endless racing game. Test your reflexes and earn high scores in Drift Boss!">
     <link rel="canonical" href="https://driftboss.vip">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -133,7 +133,6 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="assets/js/language-dropdown.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans">
     <!-- Header - Fixed and immersive -->
@@ -869,7 +868,8 @@
         const languageButton = document.getElementById('language-button');
         const languageDropdown = document.getElementById('language-dropdown');
         
-        languageButton.addEventListener('click', () => {
+        languageButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Stop event propagation
             languageDropdown.classList.toggle('hidden');
         });
         
@@ -883,6 +883,13 @@
                 mobileMenu.classList.add('hidden');
             }
         });
+        
+        // Prevent dropdown from closing when clicking inside it
+        if (languageDropdown) {
+            languageDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
     </script>
 </body>
 </html> 
