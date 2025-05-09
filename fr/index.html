@@ -12,10 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#FF5722',
-                        secondary: '#2C3E50',
-                        accent: '#F1C40F',
-                        dark: '#1A1A1A',
+                        primary: '#FFA500',  /* Changed to gold/orange */
+                        secondary: '#1E293B', /* Darker blue */
+                        accent: '#3B82F6',   /* Bright blue */
+                        dark: '#0F172A',     /* Very dark blue */
+                        'game-blue': '#0252D9', /* King of Glory blue */
+                        'game-gold': '#F0C05A', /* King of Glory gold */
                     },
                     fontFamily: {
                         sans: ['Poppins', 'system-ui', 'sans-serif'],
@@ -27,6 +29,20 @@
                         wide: '0.025em',
                         wider: '0.05em',
                     },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070')",
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
                 },
             },
         };
@@ -34,16 +50,28 @@
     <style type="text/tailwind">
         @layer components {
             .game-container {
-                @apply w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl border-4 border-gray-200;
+                @apply w-full max-w-5xl mx-auto rounded-2xl overflow-hidden shadow-xl border-4 border-game-blue/30;
             }
             .btn {
-                @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide;
+                @apply px-6 py-3 rounded-full font-semibold text-white transition-all tracking-wide hover:transform hover:scale-105 hover:shadow-lg;
             }
             .btn-primary {
-                @apply bg-primary hover:bg-opacity-90;
+                @apply bg-gradient-to-r from-game-blue to-accent text-white hover:from-game-blue/90 hover:to-accent/90 relative overflow-hidden shadow-lg;
+            }
+            .btn-primary::before {
+                content: '';
+                @apply absolute top-0 left-0 w-full h-full bg-white opacity-0 transition-opacity duration-300;
+                mix-blend-mode: overlay;
+            }
+            .btn-primary:hover::before {
+                @apply opacity-20;
             }
             .section-title {
-                @apply text-2xl md:text-3xl font-bold text-secondary mb-6 border-l-4 border-primary pl-3 leading-tight font-heading tracking-tight;
+                @apply text-2xl md:text-3xl font-bold text-dark mb-10 text-center relative inline-block;
+            }
+            .section-title::after {
+                content: '';
+                @apply absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-game-blue to-accent rounded-full;
             }
             .paragraph {
                 @apply text-base leading-relaxed text-gray-700;
@@ -52,55 +80,85 @@
                 @apply flex items-center space-x-4 py-3 px-4 rounded-lg transition-all duration-300 hover:bg-opacity-10 hover:bg-white;
             }
             .nav-link {
-                @apply relative py-2 px-1 tracking-wide transition-colors duration-300 hover:text-primary text-secondary font-medium;
+                @apply relative py-2 px-3 tracking-wide transition-colors duration-300 hover:text-game-blue text-gray-700 font-medium uppercase text-sm;
             }
             .nav-link::after {
                 content: '';
-                @apply absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-out;
+                @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-game-blue to-accent transition-all duration-300 ease-out;
             }
             .nav-link:hover::after {
                 @apply w-full;
             }
+            .nav-link.active {
+                @apply text-game-blue;
+            }
+            .nav-link.active::after {
+                @apply w-full;
+            }
             .text-glow {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+                text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            }
+            .card {
+                @apply bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300;
+            }
+            .input {
+                @apply w-full px-4 py-2 rounded-lg border-2 border-gray-200 focus:border-accent focus:outline-none transition-colors duration-300;
+            }
+            .game-card {
+                @apply relative overflow-hidden rounded-xl transition-all duration-300 group cursor-pointer;
+            }
+            .game-card:hover {
+                @apply shadow-2xl transform scale-[1.03];
+            }
+            .game-card::before {
+                content: '';
+                @apply absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent opacity-70 z-10 transition-opacity duration-300;
+            }
+            .game-card:hover::before {
+                @apply opacity-90;
+            }
+            .game-title {
+                @apply absolute bottom-0 left-0 w-full p-4 z-20 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0;
             }
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="../assets/js/language-dropdown.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans">
     <!-- Header - Fixed and immersive -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-white shadow-md">
+    <header id="main-header" class="fixed top-0 left-0 right-0 w-full z-50 bg-white shadow-md bg-opacity-95 backdrop-blur-sm">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-16 md:h-20">
-                <a href="index.html" class="text-2xl md:text-3xl font-bold text-primary tracking-tight font-heading flex items-center">
-                    <span class="text-primary">Drift</span><span class="text-accent">Boss</span>
+                <a href="index.html" class="text-2xl md:text-3xl font-bold tracking-tight font-heading flex items-center">
+                    <span class="text-game-blue">Drift</span><span class="text-game-gold">Boss</span>
+                    <span class="ml-2 text-xs px-2 py-1 rounded bg-gradient-to-r from-game-blue to-accent text-white uppercase font-bold tracking-wider hidden md:inline-block">Racing</span>
                 </a>
                 <nav class="hidden md:block">
-                    <ul class="flex space-x-8">
-                        <li><a href="#game" class="nav-link text-secondary font-semibold">Jouer</a></li>
-                        <li><a href="#about" class="nav-link text-secondary font-semibold">À Propos</a></li>
-                        <li><a href="#instructions" class="nav-link text-secondary font-semibold">Comment Jouer</a></li>
+                    <ul class="flex space-x-6">
+                        <li><a href="#game" class="nav-link active">Jouer</a></li>
+                        <li><a href="#about" class="nav-link">À Propos</a></li>
+                        <li><a href="#instructions" class="nav-link">Comment Jouer</a></li>
+                        <li><a href="#faq" class="nav-link">FAQ</a></li>
                     </ul>
                 </nav>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
-                        <button id="language-button" class="text-sm text-secondary hover:text-primary flex items-center cursor-pointer">
+                        <button id="language-button" class="text-sm text-gray-600 hover:text-game-blue flex items-center cursor-pointer bg-gray-100 px-3 py-1.5 rounded-full">
                             <span>Français</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
                         <div id="language-dropdown" class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50 hidden">
-                            <a href="../index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">English</a>
-                            <a href="../ru/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Русский</a>
-                            <a href="../kr/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">한국어</a>
-                            <a href="../br/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Português (BR)</a>
-                            <a href="../vn/index.html" class="block px-4 py-2 text-sm text-secondary hover:bg-gray-100">Tiếng Việt</a>
+                            <a href="../index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">English</a>
+                            <a href="../ru/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Русский</a>
+                            <a href="../kr/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">한국어</a>
+                            <a href="../br/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Português (BR)</a>
+                            <a href="../vn/index.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Tiếng Việt</a>
                         </div>
                     </div>
-                    <button id="mobile-menu-button" class="md:hidden text-xl text-secondary" aria-label="Menu">
+                    <button id="mobile-menu-button" class="md:hidden text-xl text-gray-700" aria-label="Menu">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -112,18 +170,19 @@
         <div id="mobile-menu" class="md:hidden bg-white hidden transition-all duration-300 shadow-xl">
             <div class="container mx-auto px-4 py-3">
                 <ul class="space-y-3">
-                    <li><a href="#game" class="block py-2 text-secondary hover:text-primary transition-colors">Jouer</a></li>
-                    <li><a href="#about" class="block py-2 text-secondary hover:text-primary transition-colors">À Propos</a></li>
-                    <li><a href="#instructions" class="block py-2 text-secondary hover:text-primary transition-colors">Comment Jouer</a></li>
+                    <li><a href="#game" class="block py-2 text-gray-700 hover:text-game-blue transition-colors">Jouer</a></li>
+                    <li><a href="#about" class="block py-2 text-gray-700 hover:text-game-blue transition-colors">À Propos</a></li>
+                    <li><a href="#instructions" class="block py-2 text-gray-700 hover:text-game-blue transition-colors">Comment Jouer</a></li>
+                    <li><a href="#faq" class="block py-2 text-gray-700 hover:text-game-blue transition-colors">FAQ</a></li>
                     <li class="border-t border-gray-200 pt-2 mt-2">
-                        <span class="block py-2 text-secondary font-medium">Langues</span>
+                        <span class="block py-2 text-gray-700 font-medium">Langues</span>
                         <div class="ml-4 grid grid-cols-2 gap-y-2 mt-1">
-                            <a href="../index.html" class="text-sm py-1 text-secondary hover:text-primary">English</a>
-                            <a href="index.html" class="text-sm py-1 text-primary font-medium">Français</a>
-                            <a href="../ru/index.html" class="text-sm py-1 text-secondary hover:text-primary">Русский</a>
-                            <a href="../kr/index.html" class="text-sm py-1 text-secondary hover:text-primary">한국어</a>
-                            <a href="../br/index.html" class="text-sm py-1 text-secondary hover:text-primary">Português (BR)</a>
-                            <a href="../vn/index.html" class="text-sm py-1 text-secondary hover:text-primary">Tiếng Việt</a>
+                            <a href="../index.html" class="text-sm py-1 text-gray-700 hover:text-game-blue">English</a>
+                            <a href="index.html" class="text-sm py-1 text-game-blue font-medium">Français</a>
+                            <a href="../ru/index.html" class="text-sm py-1 text-gray-700 hover:text-game-blue">Русский</a>
+                            <a href="../kr/index.html" class="text-sm py-1 text-gray-700 hover:text-game-blue">한국어</a>
+                            <a href="../br/index.html" class="text-sm py-1 text-gray-700 hover:text-game-blue">Português (BR)</a>
+                            <a href="../vn/index.html" class="text-sm py-1 text-gray-700 hover:text-game-blue">Tiếng Việt</a>
                         </div>
                     </li>
                 </ul>
@@ -135,15 +194,84 @@
     <div class="h-16 md:h-20"></div>
 
     <!-- Hero Section with full viewport height and immersive design -->
-    <section class="min-h-[90vh] flex items-center bg-gradient-to-r from-secondary to-dark text-white relative">
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070')] bg-cover bg-center opacity-20"></div>
-        <div class="container mx-auto px-4 text-center relative z-10 py-20">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight font-heading tracking-tight max-w-4xl mx-auto">Drift Boss - Maîtrisez le défi ultime du drift</h1>
-            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">Parcourez des plateformes infinies, perfectionnez vos compétences en drift et établissez de nouveaux records dans ce jeu de course addictif ! Explorez un monde de course unique avec des pistes de plus en plus difficiles et l'opportunité de devenir un pilote de drift de haut niveau.</p>
-            <a href="#game" class="btn btn-primary text-base">Jouer Maintenant</a>
+    <section class="min-h-screen relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center opacity-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-dark/80 to-game-blue/40"></div>
+        
+        <!-- Decorative elements -->
+        <div class="absolute top-1/4 left-5 w-20 h-20 bg-game-blue rounded-full blur-3xl opacity-20 animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 right-5 w-32 h-32 bg-accent rounded-full blur-3xl opacity-20 animate-pulse-slow"></div>
+        
+        <!-- Content -->
+        <div class="container mx-auto px-4 relative z-10 flex flex-col justify-center min-h-screen">
+            <div class="grid md:grid-cols-2 gap-10 items-center">
+                <div class="text-white pt-10 md:pt-0">
+                    <div class="inline-block px-3 py-1 rounded-full bg-gradient-to-r from-game-blue/20 to-accent/20 text-white text-sm font-semibold mb-6 backdrop-blur-sm">
+                        #1 JEU DE COURSE EN LIGNE
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight font-heading tracking-tight">
+                        <span class="text-white">Drift Boss</span> - 
+                        <span class="bg-clip-text text-transparent bg-gradient-to-r from-game-gold to-yellow-300">Maîtrisez le Drift Ultime</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl mb-10 max-w-2xl leading-relaxed font-light opacity-90">
+                        Parcourez des plateformes infinies, perfectionnez vos compétences en drift et établissez de nouveaux records dans ce jeu de course addictif !
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#game" class="btn btn-primary px-8 py-4 text-base font-bold flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 01 0 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653Z" />
+                            </svg>
+                            JOUER MAINTENANT
+                        </a>
+                        <a href="#about" class="btn px-8 py-4 bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 border border-white/20 text-base font-bold flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0zm-9-3.75h.008v.008H12V8.25Z" />
+                            </svg>
+                            EN SAVOIR PLUS
+                        </a>
+                    </div>
+                    <div class="mt-8 flex items-center space-x-6">
+                        <div class="flex -space-x-2">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white">JD</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white">MS</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-green-500 to-lime-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white">AK</div>
+                        </div>
+                        <div class="text-sm text-white/80">
+                            <strong class="text-white">10 000+</strong> joueurs en ligne
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block relative">
+                    <div class="absolute inset-0 bg-gradient-radial from-accent/30 to-transparent opacity-70 blur-2xl"></div>
+                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?q=80&w=2070" alt="Voiture de course Drift Boss" class="w-full h-auto object-cover rounded-lg relative z-10 animate-float shadow-2xl transform -rotate-3 border-4 border-white/20" />
+                    <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-game-gold/20 backdrop-blur-xl rounded-full flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-white text-2xl font-bold">4.9</div>
+                            <div class="flex text-yellow-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                                  <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="absolute bottom-0 left-0 right-0 flex justify-center">
-            <a href="#game" class="text-white animate-bounce p-2">
+            <a href="#game" class="text-white animate-bounce p-2 bg-game-blue/20 backdrop-blur-sm rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
@@ -152,11 +280,15 @@
     </section>
 
     <!-- Game Section -->
-    <section id="game" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title mb-8">Jouez à Drift Boss</h2>
-            <div class="bg-gray-50 p-6 rounded-3xl">
-                <div class="game-container aspect-[16/9]">
+    <section id="game" class="py-20 bg-white relative">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-100 to-white"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-12">
+                <h2 class="section-title mb-4 font-extrabold">Jouez à Drift Boss</h2>
+                <p class="text-gray-600 max-w-2xl text-center">Commencez à jouer instantanément dans votre navigateur - aucun téléchargement requis !</p>
+            </div>
+            <div class="bg-gradient-to-r from-game-blue/5 to-accent/5 p-8 rounded-3xl shadow-lg">
+                <div class="game-container aspect-[16/9] shadow-2xl">
                     <iframe 
                         src="https://games.crazygames.com/en_US/drift-boss/index.html" 
                         title="Jouez à Drift Boss en ligne"
@@ -165,73 +297,127 @@
                         allowfullscreen
                     ></iframe>
                 </div>
+                <div class="mt-8 flex justify-center">
+                    <a href="#game" class="btn btn-primary flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                        </svg>
+                        Redémarrer le Jeu
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title mb-8">À Propos de Drift Boss</h2>
-            <div class="grid md:grid-cols-2 gap-10">
-                <div>
-                    <p class="paragraph mb-5">Drift Boss est un jeu de course sans fin captivant qui met au défi vos réflexes et votre précision. Votre objectif est de piloter une voiture à travers des plateformes qui tournent et virent, nécessitant des compétences parfaites en drift pour rester sur la piste. À chaque plateforme que vous conquérez, la difficulté augmente, créant une expérience de jeu stimulante et captivante qui vous pousse à vous améliorer constamment.</p>
-                    <p class="paragraph mb-5">Ce qui rend Drift Boss unique est sa combinaison parfaite de simplicité et de défi. Les commandes sont intuitives et faciles à apprendre, mais maîtriser l'art du drift parfait demande de la pratique et de la persévérance. Au fur et à mesure de votre progression, les pistes deviennent plus complexes et imprévisibles, mettant vos compétences à l'épreuve. Le système de score sophistiqué enregistre chaque exploit, vous permettant de suivre votre évolution et de vous fixer de nouveaux objectifs.</p>
-                    <p class="paragraph">Avec ses graphismes dynamiques et modernes, ses contrôles ultra-réactifs et ses niveaux progressivement plus difficiles, Drift Boss offre une expérience de jeu immersive qui plaira aussi bien aux joueurs occasionnels qu'aux passionnés de course. Le jeu est parfaitement optimisé pour tous les appareils modernes, des smartphones aux ordinateurs de bureau, garantissant une expérience de jeu fluide et agréable où que vous soyez.</p>
+    <section id="about" class="py-20 bg-gray-50 relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white to-transparent"></div>
+        <div class="absolute -top-20 -right-20 w-64 h-64 bg-game-blue rounded-full blur-3xl opacity-10"></div>
+        <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-accent rounded-full blur-3xl opacity-10"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-16">
+                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-game-blue to-accent mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                    </svg>
                 </div>
-                <div class="bg-dark rounded-xl p-8 shadow-lg text-white">
-                    <h3 class="text-xl font-bold mb-6 text-accent font-heading tracking-wide border-b border-gray-700 pb-4">Caractéristiques du Jeu</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
+                <h2 class="section-title font-extrabold">À Propos de Drift Boss</h2>
+                <p class="text-gray-600 max-w-3xl text-center mb-6">Découvrez l'expérience ultime de dérapage automobile</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <div class="p-1 bg-gradient-to-r from-game-blue to-accent rounded-2xl shadow-lg">
+                        <div class="bg-white p-6 rounded-xl">
+                            <h3 class="text-2xl font-bold mb-6 text-game-blue">Caractéristiques du Jeu</h3>
+                            <div class="space-y-6">
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-game-blue to-accent flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-gray-900">Gameplay Intuitif</h4>
+                                        <p class="text-gray-600">Contrôles faciles à apprendre avec une difficulté progressive pour tous les niveaux. Maîtrisez le timing parfait pour réaliser les meilleurs drifts.</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-lg text-white">Gameplay Rapide</h4>
-                                <p class="text-gray-400 text-sm">Contrôles simples et intuitifs pour une action immédiate</p>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-game-blue to-accent flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-gray-900">Système de Score Avancé</h4>
+                                        <p class="text-gray-600">Suivez votre progression et rivalisez pour les meilleurs scores avec des classements mondiaux. Défiez-vous pour battre votre record personnel.</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-game-blue to-accent flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-gray-900">Excellence Visuelle</h4>
+                                        <p class="text-gray-600">Des graphismes impressionnants et des animations fluides créent une expérience de drift immersive qui garde les joueurs engagés.</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-game-blue to-accent flex items-center justify-center">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h4 class="text-lg font-bold text-gray-900">Multi-Plateforme</h4>
+                                        <p class="text-gray-600">Jouez sur n'importe quel appareil - mobile ou ordinateur. Le jeu est optimisé pour toutes les tailles d'écran et orientations.</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-lg text-white">Difficulté Progressive</h4>
-                                <p class="text-gray-400 text-sm">Le défi augmente au fur et à mesure de votre progression</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-lg text-white">Système de Score</h4>
-                                <p class="text-gray-400 text-sm">Battez vos records et grimpez dans le classement</p>
+                    </div>
+                </div>
+                
+                <div class="order-1 md:order-2">
+                    <h3 class="text-2xl font-bold mb-6 text-gray-900">L'Expérience Ultime de Drift</h3>
+                    <p class="paragraph mb-6">Drift Boss est un jeu de course sans fin captivant qui met au défi vos réflexes et votre précision. Votre objectif est de piloter une voiture à travers des plateformes qui tournent et virent, nécessitant des compétences parfaites en drift pour rester sur la piste. À chaque plateforme que vous conquérez, la difficulté augmente, créant une expérience de jeu stimulante et captivante.</p>
+                    <p class="paragraph mb-6">Ce qui rend Drift Boss unique est sa combinaison parfaite de simplicité et de défi. Les commandes sont intuitives et faciles à apprendre, mais maîtriser l'art du drift parfait demande de la pratique. Au fur et à mesure de votre progression, les pistes deviennent plus complexes, mettant vos compétences à l'épreuve.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-game-blue">
+                            <div class="flex items-center justify-between">
+                                <div class="text-game-blue font-bold">Joueurs Actifs</div>
+                                <div class="text-xl font-bold">10K+</div>
                             </div>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
+                        <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-accent">
+                            <div class="flex items-center justify-between">
+                                <div class="text-accent font-bold">Score Maximum</div>
+                                <div class="text-xl font-bold">1.2M</div>
                             </div>
-                            <div>
-                                <h4 class="font-semibold text-lg text-white">Multi-Plateforme</h4>
-                                <p class="text-gray-400 text-sm">Jouez sur n'importe quel appareil, n'importe où</p>
+                        </div>
+                        <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-game-gold">
+                            <div class="flex items-center justify-between">
+                                <div class="text-game-gold font-bold">Joueurs Quotidiens</div>
+                                <div class="text-xl font-bold">5K+</div>
+                            </div>
+                        </div>
+                        <div class="bg-white shadow-md rounded-lg p-4 border-l-4 border-purple-500">
+                            <div class="flex items-center justify-between">
+                                <div class="text-purple-500 font-bold">Évaluation</div>
+                                <div class="text-xl font-bold">4.9/5</div>
                             </div>
                         </div>
                     </div>
@@ -240,161 +426,615 @@
         </div>
     </section>
 
-    <!-- Instructions Section -->
-    <section id="instructions" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title mb-10">Comment Jouer</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-gray-100 p-8 rounded-lg">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
-                        <span class="text-xl font-bold text-white">1</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Contrôles</h3>
-                    <p class="text-center paragraph">Utilisez votre souris pour cliquer et maintenir (sur ordinateur) ou appuyez et maintenez (sur mobile) pour faire drifter votre voiture. Relâchez pour arrêter le drift. Le moment où vous relâchez la commande est tout aussi important que celui où vous commencez à drifter, alors entraînez-vous aux deux techniques.</p>
+    <!-- How to Play Section -->
+    <section id="how-to-play" class="py-20 bg-white relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-20 right-0 w-72 h-72 bg-game-blue rounded-full blur-3xl opacity-5"></div>
+        <div class="absolute bottom-20 left-0 w-72 h-72 bg-accent rounded-full blur-3xl opacity-5"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-16">
+                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-game-blue to-accent mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                    </svg>
                 </div>
-                <div class="bg-gray-100 p-8 rounded-lg">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
-                        <span class="text-xl font-bold text-white">2</span>
+                <h2 class="section-title font-extrabold">Comment Jouer</h2>
+                <p class="text-gray-600 max-w-3xl text-center mb-10">Maîtrisez les contrôles et atteignez des scores élevés</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Game Controls Card -->
+                <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition-all hover:scale-105">
+                    <div class="h-2 bg-gradient-to-r from-game-blue to-accent"></div>
+                    <div class="p-6">
+                        <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-game-blue to-accent flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Contrôles du Jeu</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-blue" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700"><span class="font-semibold">PC</span>: Cliquez et maintenez le bouton gauche de la souris pour charger, relâchez pour drifter.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-blue" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700"><span class="font-semibold">Mobile</span>: Touchez et maintenez l'écran pour charger, relâchez pour drifter.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-blue" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700"><span class="font-semibold">Tablette</span>: Touchez et maintenez l'écran pour charger, relâchez pour drifter.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Objectif</h3>
-                    <p class="text-center paragraph">Guidez votre voiture à travers les plateformes sans tomber. Plus vous survivez longtemps, plus votre score sera élevé. Chaque plateforme que vous franchissez ajoute des points à votre score total, et l'exécution de drifts parfaits peut vous rapporter des points bonus spéciaux.</p>
                 </div>
-                <div class="bg-gray-100 p-8 rounded-lg">
-                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-5">
-                        <span class="text-xl font-bold text-white">3</span>
+                
+                <!-- Game Objective Card -->
+                <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition-all hover:scale-105">
+                    <div class="h-2 bg-gradient-to-r from-accent to-game-gold"></div>
+                    <div class="p-6">
+                        <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-accent to-game-gold flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v1.5M3 21v-6m0 0l2.77-.693a9 9 0 016.208.682l.108.054a9 9 0 006.086.71l3.114-.732a48.524 48.524 0 01-.005-10.499l-3.11.732a9 9 0 01-6.085-.711l-.108-.054a9 9 0 00-6.208-.682L3 4.5M3 15V4.5" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Objectif du Jeu</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="flex items-center justify-center w-5 h-5 rounded-full bg-accent text-white text-xs font-bold">1</div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700">Driftez votre voiture sur les plateformes en constante rotation.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="flex items-center justify-center w-5 h-5 rounded-full bg-accent text-white text-xs font-bold">2</div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700">Accumulez des points en atteignant avec succès chaque nouvelle plateforme.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="flex items-center justify-center w-5 h-5 rounded-full bg-accent text-white text-xs font-bold">3</div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700">Survivez aussi longtemps que possible pour obtenir les scores les plus élevés.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <div class="flex items-center justify-center w-5 h-5 rounded-full bg-accent text-white text-xs font-bold">4</div>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700">Perfectionnez votre timing pour maîtriser les virages les plus difficiles.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="text-xl font-bold text-center mb-4 font-heading">Défi</h3>
-                    <p class="text-center paragraph">Les plateformes changeront de direction, nécessitant un timing parfait et un contrôle de vos drifts. Pouvez-vous battre votre meilleur score ? Chaque partie est une nouvelle opportunité d'améliorer vos compétences et d'obtenir de meilleurs résultats.</p>
                 </div>
+                
+                <!-- Tips & Tricks Card -->
+                <div class="bg-white shadow-xl rounded-xl overflow-hidden transform transition-all hover:scale-105">
+                    <div class="h-2 bg-gradient-to-r from-game-gold to-purple-500"></div>
+                    <div class="p-6">
+                        <div class="w-14 h-14 rounded-lg bg-gradient-to-r from-game-gold to-purple-500 flex items-center justify-center mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4 text-gray-900">Astuces & Conseils</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-gold" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 font-medium">Anticipez le mouvement</p>
+                                    <p class="text-gray-600 text-sm">Observez le mouvement de la plateforme suivante pour mieux chronométrer votre drift.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-gold" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 font-medium">Maîtrisez votre puissance</p>
+                                    <p class="text-gray-600 text-sm">Maintenez le bouton plus longtemps pour les grandes distances, moins pour les petites.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-gold" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 font-medium">Gardez votre calme</p>
+                                    <p class="text-gray-600 text-sm">Ne paniquez pas lorsque les plateformes tournent rapidement. La précision est essentielle.</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div class="flex-shrink-0 mt-1">
+                                    <svg class="w-5 h-5 text-game-gold" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.476.859h4.002z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-gray-700 font-medium">Pratiquez régulièrement</p>
+                                    <p class="text-gray-600 text-sm">Comme tout jeu de compétence, l'amélioration vient avec la pratique et la persévérance.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 flex justify-center">
+                <a href="#game" class="btn-primary">
+                    Commencer à jouer maintenant
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ml-2">
+                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-16 bg-gray-100">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title mb-10">Questions Fréquentes</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold mb-3 font-heading">Puis-je jouer à Drift Boss gratuitement ?</h3>
-                    <p class="paragraph">Oui, Drift Boss est totalement gratuit en ligne. Aucun téléchargement ou paiement n'est nécessaire. Vous pouvez jouer directement dans votre navigateur web sans installer aucun logiciel.</p>
+    <section id="faq" class="py-20 bg-gray-50 relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute -top-20 -left-20 w-64 h-64 bg-game-blue rounded-full blur-3xl opacity-10"></div>
+        <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-accent rounded-full blur-3xl opacity-10"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-16">
+                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-game-blue to-accent mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+                    </svg>
                 </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold mb-3 font-heading">Puis-je jouer à Drift Boss sur mobile ?</h3>
-                    <p class="paragraph">Absolument ! Drift Boss fonctionne sur tous les appareils modernes, y compris les smartphones, tablettes et ordinateurs de bureau. Le jeu est optimisé pour offrir une expérience fluide sur tous les formats d'écran.</p>
+                <h2 class="section-title font-extrabold">Questions Fréquemment Posées</h2>
+                <p class="text-gray-600 max-w-3xl text-center mb-10">Tout ce que vous devez savoir sur Drift Boss</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="space-y-6">
+                    <!-- FAQ Item 1 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Est-ce que Drift Boss est gratuit ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Oui, Drift Boss est entièrement gratuit à jouer. Vous pouvez profiter du jeu directement dans votre navigateur sans aucun coût ni abonnement. Il n'y a pas de fonctionnalités payantes ou de contenu verrouillé - toute l'expérience de jeu est accessible à tous les joueurs gratuitement.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 2 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Puis-je jouer à Drift Boss sur mobile ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Absolument ! Drift Boss est entièrement optimisé pour les appareils mobiles et les tablettes. Le jeu fonctionne parfaitement sur les écrans tactiles avec des contrôles adaptés pour une expérience fluide. Vous pouvez y jouer sur n'importe quel smartphone ou tablette avec un navigateur web moderne sans avoir besoin de télécharger une application.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 3 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Mes scores sont-ils sauvegardés ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Le jeu enregistre automatiquement votre meilleur score localement sur votre appareil, ce qui vous permet de suivre vos performances et de voir vos améliorations au fil du temps. Si vous jouez sur le même appareil et le même navigateur, vous pourrez toujours voir votre meilleur score. Pour une persistance complète de vos scores entre les appareils, certaines plateformes d'hébergement peuvent proposer des fonctionnalités de compte utilisateur.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Y a-t-il différents niveaux ou modes de jeu ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Drift Boss est un jeu de type "endless runner" avec une difficulté qui augmente progressivement. Bien qu'il n'y ait pas de niveaux distincts comme dans les jeux traditionnels, le jeu devient naturellement plus difficile au fur et à mesure que vous avancez, avec des plateformes qui tournent plus rapidement et des configurations plus complexes. Cette progression dynamique offre un défi constant qui s'adapte à votre niveau de compétence.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 5 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Comment puis-je améliorer mon score ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Pour améliorer votre score dans Drift Boss, concentrez-vous sur ces techniques clés : premièrement, perfectionnez votre timing en observant attentivement le mouvement des plateformes avant de sauter. Deuxièmement, travaillez sur la régulation de votre puissance en maintenant le bouton plus ou moins longtemps selon la distance. Troisièmement, restez calme sous pression lorsque la vitesse augmente. La pratique régulière est essentielle - plus vous jouez, plus vous développerez une intuition pour le timing parfait.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 6 -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <button class="w-full px-6 py-4 text-left focus:outline-none flex justify-between items-center">
+                            <span class="text-lg font-bold text-gray-900">Le jeu fonctionne-t-il sans connexion Internet ?</span>
+                            <svg class="w-6 h-6 text-game-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="px-6 pb-4">
+                            <p class="text-gray-700">Drift Boss nécessite une connexion Internet pour le chargement initial, car c'est un jeu basé sur navigateur. Cependant, une fois chargé, certaines plateformes permettent de jouer brièvement hors ligne. Pour une expérience optimale et sans interruption, une connexion Internet stable est recommandée. Si vous recherchez des options de jeu hors ligne, vérifiez si votre navigateur prend en charge la mise en cache du jeu pour une utilisation hors ligne.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold mb-3 font-heading">Comment m'améliorer à Drift Boss ?</h3>
-                    <p class="paragraph">La pratique est la clé ! Concentrez-vous sur le timing parfait de vos drifts et essayez d'anticiper les changements de plateforme avant qu'ils ne se produisent. Commencez par des courses plus courtes et défiez-vous progressivement avec des sessions plus longues. Étudiez les motifs de mouvement des plateformes pour mieux les prédire.</p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <h3 class="text-lg font-bold mb-3 font-heading">Drift Boss sauvegarde-t-il mes records ?</h3>
-                    <p class="paragraph">Oui, votre meilleur score est sauvegardé localement sur votre appareil pour que vous puissiez suivre vos progrès. Cela vous permet de surveiller votre amélioration et de vous fixer des objectifs personnels pour améliorer vos performances au fil du temps.</p>
+                
+                <div class="mt-12 text-center">
+                    <p class="text-gray-600 mb-6">Vous avez une autre question ?</p>
+                    <a href="mailto:support@driftboss.com" class="btn-secondary">
+                        Contactez-nous
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 ml-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Related Games -->
-    <section class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="section-title mb-8">Autres Jeux de Course Que Vous Allez Adorer</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <a href="#" class="group block">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-orange-500 to-red-600 rounded-xl overflow-hidden relative shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-[1.02]">
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-transparent opacity-60 mix-blend-overlay"></div>
-                        <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                            <h3 class="text-xl font-bold text-white mb-2 relative">Speed Racer</h3>
-                            <p class="text-white/80 text-sm relative">Course contre la montre sur des circuits intenses</p>
+    <!-- Related Games Section -->
+    <section id="related-games" class="py-20 bg-white relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50 to-transparent"></div>
+        <div class="absolute top-20 right-0 w-72 h-72 bg-game-blue rounded-full blur-3xl opacity-5"></div>
+        <div class="absolute bottom-20 left-0 w-72 h-72 bg-accent rounded-full blur-3xl opacity-5"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col items-center mb-16">
+                <div class="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-game-blue to-accent mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="white" class="w-8 h-8">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
+                    </svg>
+                </div>
+                <h2 class="section-title font-extrabold">Jeux Similaires</h2>
+                <p class="text-gray-600 max-w-3xl text-center mb-10">Si vous aimez Drift Boss, vous adorerez ces jeux</p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Game Card 1 -->
+                <div class="group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all group-hover:scale-105 group-hover:shadow-xl">
+                        <div class="relative">
+                            <img src="../assets/images/game1.jpg" alt="Hill Climb Racing" class="w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-4">
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-white font-bold">Hill Climb Racing</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-sm mb-4">Conduisez votre véhicule sur des terrains accidentés en défiant la physique et en collectant des pièces.</p>
+                            <a href="#" class="inline-block text-game-blue font-semibold text-sm hover:text-accent transition-colors">
+                                Jouer maintenant
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 inline-block ml-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                </a>
-                <a href="#" class="group block">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl overflow-hidden relative shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-[1.02]">
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-transparent opacity-60 mix-blend-overlay"></div>
-                        <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                            <h3 class="text-xl font-bold text-white mb-2 relative">Circuit Drifter</h3>
-                            <p class="text-white/80 text-sm relative">Maîtrisez l'art du drift sur circuit</p>
+                </div>
+                
+                <!-- Game Card 2 -->
+                <div class="group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all group-hover:scale-105 group-hover:shadow-xl">
+                        <div class="relative">
+                            <img src="../assets/images/game2.jpg" alt="Traffic Rider" class="w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-4">
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-white font-bold">Traffic Rider</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-sm mb-4">Une expérience de conduite à moto à la première personne avec plusieurs modes et défis.</p>
+                            <a href="#" class="inline-block text-game-blue font-semibold text-sm hover:text-accent transition-colors">
+                                Jouer maintenant
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 inline-block ml-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                </a>
-                <a href="#" class="group block">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-green-500 to-teal-600 rounded-xl overflow-hidden relative shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-[1.02]">
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-transparent opacity-60 mix-blend-overlay"></div>
-                        <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                            <h3 class="text-xl font-bold text-white mb-2 relative">Car Rush</h3>
-                            <p class="text-white/80 text-sm relative">Action de course urbaine à grande vitesse</p>
+                </div>
+                
+                <!-- Game Card 3 -->
+                <div class="group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all group-hover:scale-105 group-hover:shadow-xl">
+                        <div class="relative">
+                            <img src="../assets/images/game3.jpg" alt="Asphalt 9" class="w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-4">
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-white font-bold">Asphalt 9</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-sm mb-4">Course arcade avec des voitures de luxe, des graphismes époustouflants et des sensations fortes.</p>
+                            <a href="#" class="inline-block text-game-blue font-semibold text-sm hover:text-accent transition-colors">
+                                Jouer maintenant
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 inline-block ml-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
-                </a>
-                <a href="#" class="group block">
-                    <div class="aspect-[4/3] bg-gradient-to-br from-yellow-500 to-red-600 rounded-xl overflow-hidden relative shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:scale-[1.02]">
-                        <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-transparent opacity-60 mix-blend-overlay"></div>
-                        <div class="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                            <h3 class="text-xl font-bold text-white mb-2 relative">Formula Racing</h3>
-                            <p class="text-white/80 text-sm relative">Simulation professionnelle de course de formule</p>
+                </div>
+                
+                <!-- Game Card 4 -->
+                <div class="group">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all group-hover:scale-105 group-hover:shadow-xl">
+                        <div class="relative">
+                            <img src="../assets/images/game4.jpg" alt="Subway Surfers" class="w-full h-48 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-4">
+                                    <div class="flex items-center mb-1">
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-white font-bold">Subway Surfers</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-gray-600 text-sm mb-4">Jeu de course sans fin où vous surfez sur des trains, esquivez les obstacles et collectez des pièces.</p>
+                            <a href="#" class="inline-block text-game-blue font-semibold text-sm hover:text-accent transition-colors">
+                                Jouer maintenant
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 inline-block ml-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center">
+                <a href="#game" class="btn-primary">
+                    Revenez à Drift Boss
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 ml-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-6.75-6.75M21 12H3" />
+                    </svg>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-12">
-        <div class="container mx-auto px-4">
-            <div class="grid md:grid-cols-3 gap-10">
+    <footer class="bg-gray-900 text-white pt-20 pb-10 relative overflow-hidden">
+        <!-- Decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-white/5 to-transparent"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-game-blue rounded-full blur-3xl opacity-10"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-accent rounded-full blur-3xl opacity-10"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                 <div>
-                    <h3 class="text-xl font-bold mb-5 font-heading">Drift<span class="text-accent">Boss</span></h3>
-                    <p class="text-gray-300 leading-relaxed">Le jeu ultime de drift automobile qui teste vos réflexes et votre précision. Jouez gratuitement en ligne ! Avec des graphismes époustouflants, des commandes fluides et un gameplay stimulant, Drift Boss est le choix parfait pour les passionnés de jeux de course.</p>
+                    <div class="mb-6">
+                        <h2 class="text-2xl font-bold text-white mb-2">Drift Boss</h2>
+                        <p class="text-gray-400">L'expérience ultime de drift automobile</p>
+                    </div>
+                    <p class="text-gray-400 mb-6">Drift Boss est un jeu de course captivant qui met vos compétences à l'épreuve. Avec des graphismes brillants et un gameplay addictif, il vous offrira des heures de divertissement intense.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
+                
                 <div>
-                    <h3 class="text-lg font-bold mb-5 font-heading">Liens Rapides</h3>
-                    <ul class="space-y-3">
-                        <li><a href="#game" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Jouer</a></li>
-                        <li><a href="#about" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">À Propos</a></li>
-                        <li><a href="#instructions" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Comment Jouer</a></li>
+                    <h3 class="text-lg font-bold text-white mb-6">Liens Rapides</h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="#game" class="text-gray-400 hover:text-white transition-colors">Jouer au Jeu</a>
+                        </li>
+                        <li>
+                            <a href="#about" class="text-gray-400 hover:text-white transition-colors">À Propos du Jeu</a>
+                        </li>
+                        <li>
+                            <a href="#how-to-play" class="text-gray-400 hover:text-white transition-colors">Comment Jouer</a>
+                        </li>
+                        <li>
+                            <a href="#faq" class="text-gray-400 hover:text-white transition-colors">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#related-games" class="text-gray-400 hover:text-white transition-colors">Jeux Similaires</a>
+                        </li>
                     </ul>
                 </div>
+                
                 <div>
-                    <h3 class="text-lg font-bold mb-5 font-heading">Informations Légales</h3>
-                    <ul class="space-y-3">
-                        <li><a href="../privacy-policy.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Politique de Confidentialité</a></li>
-                        <li><a href="../terms-of-service.html" class="text-gray-300 hover:text-primary transition-colors inline-block py-1">Conditions d'Utilisation</a></li>
+                    <h3 class="text-lg font-bold text-white mb-6">Support</h3>
+                    <ul class="space-y-4">
+                        <li>
+                            <a href="/fr/privacy-policy.html" class="text-gray-400 hover:text-white transition-colors">Politique de Confidentialité</a>
+                        </li>
+                        <li>
+                            <a href="/fr/terms-of-service.html" class="text-gray-400 hover:text-white transition-colors">Conditions d'Utilisation</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">Signaler un Problème</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors">Demande RGPD</a>
+                        </li>
                     </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-6">Téléchargez Notre App</h3>
+                    <p class="text-gray-400 mb-6">Jouez à Drift Boss et à d'autres jeux sur nos applications mobiles.</p>
+                
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-10 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 DriftBoss.vip - Tous droits réservés.</p>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-500 text-sm mb-4 md:mb-0">&copy; 2023 Drift Boss. Tous droits réservés.</p>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Politique de Confidentialité</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Conditions d'Utilisation</a>
+                        <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Cookies</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
-
-    <!-- Smooth scroll script -->
+    
+    <!-- JavaScript for interactivity -->
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const headerHeight = document.getElementById('main-header').offsetHeight;
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-                    
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Close mobile menu if it's open
-                    const mobileMenu = document.getElementById('mobile-menu');
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            });
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Language dropdown toggle
+        document.getElementById('language-button').addEventListener('click', function() {
+            const dropdown = document.getElementById('language-dropdown');
+            dropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdowns when clicking outside
+        window.addEventListener('click', function(e) {
+            const languageDropdown = document.getElementById('language-dropdown');
+            const languageButton = document.getElementById('language-button');
+            
+            if (!languageButton.contains(e.target) && !languageDropdown.contains(e.target)) {
+                languageDropdown.classList.add('hidden');
+            }
+        });
+        
+        // Restart game button
+        document.getElementById('restart-game').addEventListener('click', function() {
+            const gameFrame = document.querySelector('#game iframe');
+            const currentSrc = gameFrame.src;
+            gameFrame.src = currentSrc;
         });
     </script>
 </body>
